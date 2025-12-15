@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#main{
+    position: relative;
+}
+#output{
+    width: 80%;
+    height: 100px;
+    margin: 20px auto;
+    border: 1px solid #000;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+#coment{
+    width: 80%;
+    height: 30px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+}
+
+#jan{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+#jan div{
+    font-weight:600;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+    margin: 0 20px 20px;
+    border: 1px solid #000;
+    vertical-align: baseline;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    border-radius: 50%;
+}
