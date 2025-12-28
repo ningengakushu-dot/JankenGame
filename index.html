@@ -2,25 +2,28 @@
 <html lang="ja">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<section id="main">
-    <div id="output">じゃんけんゲーム</div>
-    <div id="coment" >いざ、勝負！</samp></div>
-        <div id="jan">
-            <div id="goo"  onclick="goo()">グー</div>
-            <div id="choki"  onclick="choki()">チョキ</div>
-            <div id="par" onclick="par()">パー</div>
-        </div>
-    </div>
-</section>
+    <section id="main">
+        <h1>じゃんけんゲーム</h1>
 
-<script src="script.js"></script>
+        <div id="output"></div>
+        <div id="coment">いざ、勝負！</div>
+
+        <div id="jan">
+            <div id="goo" class="hand" onclick="goo()">グー</div>
+            <div id="choki" class="hand" onclick="choki()">チョキ</div>
+            <div id="par" class="hand" onclick="par()">パー</div>
+        </div>
+        <div id="reset" onclick="reset()">リセット</div>
+    </section>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
