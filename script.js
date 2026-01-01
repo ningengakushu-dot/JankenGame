@@ -8,12 +8,17 @@ const coment = document.getElementById('coment')
 const comentCSS = document.querySelector('#coment')
 const jan = document.getElementById('jan')
 const janCSS = document.querySelector('#jan');
+const charImg = document.getElementById('charImg');
 
-const hands = {
-    0: "images/gu.png",
-    1: "images/choki.png",
-    2: "images/pa.png",
-}
+const charPose = {
+    wait: 'images/wait.png',
+    win: 'images/win.png',
+    lose: 'images/lose.png',
+    draw: 'images/draw.png',
+    0: 'images/gu.png',
+    1: 'images/choki.png',
+    2: 'images/pa.png',
+};
 
 let kati = 0
 let make = 0
@@ -32,30 +37,36 @@ const playGame = (userHand) => {
 
     // 画面に敵の手を表示
     if (enemyHand === 0) {
-        output.textContent = "グー"
+        output.textContent = "グー！"
     } else if (enemyHand === 1) {
-        output.textContent = "チョキ"
+        output.textContent = "チョキ！"
     } else if (enemyHand === 2) {
-        output.textContent = "パー"
+        output.textContent = "パー！"
     }
 
     if (userHand === enemyHand) {
         wake += 1
-        coment.textContent = "あいこ！もう一回！"
+        coment.textContent = "引き分け"
+        output.textContent += "あいこだね！"
+        charImg.src = charPose.draw;
     }
     else if (userHand === 0 && enemyHand === 1 ||
         userHand === 1 && enemyHand === 2 ||
         userHand === 2 && enemyHand === 0) {
         kati += 1
         katiArr += 1
-        coment.textContent = "勝ち！"
+        coment.textContent = "勝ち"
+        output.textContent += "まけちゃった…"
+        charImg.src = charPose.lose;
     }
     else if (userHand === 0 && enemyHand === 2 ||
         userHand === 1 && enemyHand === 0 ||
         userHand === 2 && enemyHand === 1) {
         make += 1
         katiArr = 0
-        coment.textContent = "敗北！"
+        coment.textContent = "敗北"
+        output.textContent += "やったぁ！"
+        charImg.src = charPose.win;
     }
 
     if (userHand === 0) {
@@ -79,9 +90,9 @@ const reset = () => {
     make = 0
     wake = 0
     katiArr = 0
-    output.textContent = "もっかい、あそぼ～！"
-    coment.textContent = "▼ えらんでね ▼"
-    coment.innerHTML += `<br>勝：${kati}　負：${make}　引き分け：${wake}`
+    output.textContent = "もっかい あそぼ～！"
+    charImg.src = charPose.wait;
+    coment.textContent = `勝：${kati}　負：${make}　引き分け：${wake}`
     janCSS.style.display = "flex"
 }
 
