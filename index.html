@@ -9,18 +9,24 @@
 </head>
 
 <body>
+    <div class="bg-decoration"></div>
     <section id="main">
         <h1>じゃんけんゲーム</h1>
 
-        <div id="output"></div>
-        <div id="coment">いざ、勝負！</div>
+        <div id="output">パパ、あそぼ～！</div>
+
+        <div id="character-area">
+            <img id="char-img" src="images/wait.png" 　width="300" height="300">
+        </div>
+
+        <div id="coment">▼ えらんでね ▼</div>
 
         <div id="jan">
-            <div id="goo" class="hand" onclick="playGame(0)">グー</div>
-            <div id="choki" class="hand" onclick="playGame(1)">チョキ</div>
-            <div id="par" class="hand" onclick="playGame(2)">パー</div>
+            <div id="goo">グー</div>
+            <div id="choki">チョキ</div>
+            <div id="par">パー</div>
         </div>
-        <div id="reset" onclick="reset()">リセット</div>
+        <div id="reset">リセット</div>
     </section>
 
     <script src="script.js"></script>
