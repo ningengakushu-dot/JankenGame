@@ -5,37 +5,51 @@ const resetBtn = document.getElementById('reset')
 
 const output = document.getElementById('output')
 const coment = document.getElementById('coment')
-const comentCSS = document.querySelector('#coment')
 const jan = document.getElementById('jan')
-const janCSS = document.querySelector('#jan');
 const charImg = document.getElementById('charImg');
+const message = document.getElementById('message')
+
+const comentCSS = document.querySelector('#coment')
+const janCSS = document.querySelector('#jan')
+const messageCSS = document.querySelector('#message')
+
+
+let playing = false; // 連打防止用（true = じゃんけん中）
+let win = 0
+let lose = 0
+let draw = 0
+let winArr = 0
+let loseArr = 0
+
 
 const charPose = {
-    wait: 'images/wait.png',
+    gameWin: 'images/gamewin.png',
+    gameLose: 'images/gamelose.png',
+    wait: 'images/wait.gif',
     win: 'images/win.png',
     lose: 'images/lose.png',
-    draw: 'images/draw.png',
-    0: 'images/gu.png',
-    1: 'images/choki.png',
-    2: 'images/pa.png',
+    draw: 'images/draw.gif',
+    0: 'images/goo.png',
+    1: 'images/cyoki.png',
+    2: 'images/par.png',
 };
 
-let kati = 0
-let make = 0
-let wake = 0
-let katiArr = 0
-
 const playGame = (userHand) => {
-    // 画面表示をリセット
+
+    if (playing === true) {
+        return; // じゃんけん中は処理スキップ
+    }
+
+    playing = true; // じゃんけん中に変更
     output.innerHTML = ""
     coment.innerHTML = ""
     comentCSS.style.display = "inherit"
 
-    // 相手の手 ランダム（0:グー, 1:チョキ, 2:パー）
+    // 相手の手 ランダム（0:グー 1:チョキ 2:パー）
     let enemyHand = Math.floor(Math.random() * 3)
-    console.log(`自分の手: ${userHand}, 相手の手: ${enemyHand}`);
+    charImg.src = charPose[enemyHand];
 
-    // 画面に敵の手を表示
+    // 相手の手を出力
     if (enemyHand === 0) {
         output.textContent = "グー！"
     } else if (enemyHand === 1) {
@@ -44,56 +58,83 @@ const playGame = (userHand) => {
         output.textContent = "パー！"
     }
 
-    if (userHand === enemyHand) {
-        wake += 1
-        coment.textContent = "引き分け"
-        output.textContent += "あいこだね！"
-        charImg.src = charPose.draw;
-    }
-    else if (userHand === 0 && enemyHand === 1 ||
-        userHand === 1 && enemyHand === 2 ||
-        userHand === 2 && enemyHand === 0) {
-        kati += 1
-        katiArr += 1
-        coment.textContent = "勝ち"
-        output.textContent += "まけちゃった…"
-        charImg.src = charPose.lose;
-    }
-    else if (userHand === 0 && enemyHand === 2 ||
-        userHand === 1 && enemyHand === 0 ||
-        userHand === 2 && enemyHand === 1) {
-        make += 1
-        katiArr = 0
-        coment.textContent = "敗北"
-        output.textContent += "やったぁ！"
-        charImg.src = charPose.win;
-    }
-
+    // 自分の手を出力
     if (userHand === 0) {
-        coment.textContent += "（あなたの手：グー）"
+        coment.textContent = "（あなたの手：グー）"
+        coment.innerHTML += `<br>勝：${win}　負：${lose}　引き分け：${draw}`
     } else if (userHand === 1) {
-        coment.textContent += "（あなたの手：チョキ）"
+        coment.textContent = "（あなたの手：チョキ）"
+        coment.innerHTML += `<br>勝：${win}　負：${lose}　引き分け：${draw}`
     } else if (userHand === 2) {
-        coment.textContent += "（あなたの手：パー）"
+        coment.textContent = "（あなたの手：パー）"
+        coment.innerHTML += `<br>勝：${win}　負：${lose}　引き分け：${draw}`
     }
-    coment.innerHTML += `<br>勝：${kati}　負：${make}　引き分け：${wake}`
 
-    if (katiArr === 3) {
-        output.textContent = `パパのかち！`
-        coment.textContent = `勝：${kati}　負：${make}　引き分け：${wake}`
-        janCSS.style.display = "none"
-    }
+    setTimeout(() => {
+        // 勝敗判定を出力
+        if (userHand === enemyHand) {
+            draw += 1
+            coment.textContent = "引き分け"
+            output.textContent = "あいこだね！"
+            charImg.src = charPose.draw;
+        }
+        else if (userHand === 0 && enemyHand === 1 ||
+            userHand === 1 && enemyHand === 2 ||
+            userHand === 2 && enemyHand === 0) {
+            win += 1
+            winArr += 1
+            loseArr = 0
+            coment.textContent = "勝ち"
+            output.textContent = "まけちゃった…"
+            charImg.src = charPose.lose;
+        }
+        else if (userHand === 0 && enemyHand === 2 ||
+            userHand === 1 && enemyHand === 0 ||
+            userHand === 2 && enemyHand === 1) {
+            lose += 1
+            loseArr += 1
+            winArr = 0
+            coment.textContent = "敗北"
+            output.textContent = "やったぁ！"
+            charImg.src = charPose.win;
+        }
+
+
+        coment.innerHTML += `<br>勝：${win}　負：${lose}　引き分け：${draw}`
+
+        //　２連続で勝ち or 負けでゲーム終了
+        if (winArr === 2) {
+            output.textContent = "えーん、えーん！"
+            coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
+            janCSS.style.display = "none"
+            message.innerHTML = `あなたの勝ちですが…<br>みのりちゃんが泣いてしまいました。`
+            messageCSS.style.display = "flex"
+            charImg.src = charPose.gameWin;
+        } else if (loseArr === 2) {
+            output.textContent = "わーい！みのりのかち！"
+            coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
+            janCSS.style.display = "none"
+            message.innerHTML = 'あなたの負け!!<br>なんと、2歳児に完 全 敗 北。'
+            messageCSS.style.display = "flex"
+            charImg.src = charPose.gameLose;
+        }
+
+        playing = false; // 解除
+    }, 1500); // 1.5秒待機
 }
 
 const reset = () => {
-    kati = 0
-    make = 0
-    wake = 0
-    katiArr = 0
-    output.textContent = "もっかい あそぼ～！"
+    win = 0
+    lose = 0
+    draw = 0
+    winArr = 0
+    loseArr = 0
+    output.textContent = "もっかい あそぼ！"
     charImg.src = charPose.wait;
-    coment.textContent = `勝：${kati}　負：${make}　引き分け：${wake}`
+    coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
     janCSS.style.display = "flex"
+    messageCSS.style.display = "none"
+    message.textContent = ""
 }
 
 gooBtn.addEventListener('click', () => {
