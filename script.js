@@ -37,6 +37,18 @@ const charPose = {
     2: 'images/par.png',
 };
 
+// メッセージを定期的に更新（じゃんけん中以外）
+setInterval(() => {
+    if (playing === false && win === 0 && lose === 0 && draw === 0 && janCSS.style.display !== "none") {
+        const outMessage = [
+            'パパ、あそぼ～！',
+            'はやくあそんでよ～！',
+            'なにしてるのー？'
+        ]
+        output.textContent = outMessage[Math.floor(Math.random() * outMessage.length)]
+    }
+}, 6000);
+
 const playGame = (userHand) => {
 
     if (playing === true) {
@@ -106,14 +118,15 @@ const playGame = (userHand) => {
         coment.innerHTML += `<br>勝：${win}　負：${lose}　引き分け：${draw}`
 
         //　２連続で勝ち or ２連負けでゲーム終了
-        if (winArr === 3) {
+        if (winArr === 2) {
             output.textContent = "えーん、えーん！"
             coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
             janCSS.style.display = "none"
             message.innerHTML = `あなたの勝ちですが…<br>みのりちゃんが泣いてしまいました。`
             messageCSS.style.display = "flex"
             charImg.src = charPose.gameWin;
-        } else if (loseArr === 3) {
+        } else if (loseArr === 2
+        ) {
             output.textContent = "わーい！みのりのかち！"
             coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
             janCSS.style.display = "none"
@@ -132,7 +145,8 @@ const reset = () => {
     draw = 0
     winArr = 0
     loseArr = 0
-    output.textContent = "もっかい あそぼ！"
+    const outMessage = ['2回勝ったらおわりだよ', 'パパ、あそぼ～！', 'まけないよ～', 'はやくあそんでよ～！', 'なにしてるの？']
+    output.textContent = outMessage[Math.floor(Math.random() * outMessage.length)]
     charImg.src = charPose.wait;
     coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
     janCSS.style.display = "flex"
