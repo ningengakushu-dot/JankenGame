@@ -4,6 +4,7 @@ const parBtn = document.getElementById('par')
 const resetBtn = document.getElementById('reset')
 const bgm = document.getElementById('bgm');
 const bgmCtrl = document.getElementById('bgm-ctrl');
+const heartBtn = document.getElementById('heart-btn');
 
 const output = document.getElementById('output')
 const coment = document.getElementById('coment')
@@ -104,7 +105,7 @@ const playGame = (userHand) => {
 
         coment.innerHTML += `<br>勝：${win}　負：${lose}　引き分け：${draw}`
 
-        //　３連続で勝ち or 3連負けでゲーム終了
+        //　２連続で勝ち or ２連負けでゲーム終了
         if (winArr === 3) {
             output.textContent = "えーん、えーん！"
             coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
@@ -116,7 +117,7 @@ const playGame = (userHand) => {
             output.textContent = "わーい！みのりのかち！"
             coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
             janCSS.style.display = "none"
-            message.innerHTML = 'あなたの負け!!<br>なんと、2歳児に完 全 敗 北。'
+            message.innerHTML = 'あなたの負け!!<br>みのりちゃんに 完 全 敗 北 しました。'
             messageCSS.style.display = "flex"
             charImg.src = charPose.gameLose;
         }
@@ -164,8 +165,38 @@ bgmCtrl.addEventListener('click', () => {
     }
 });
 
-// 1秒後にBGMを再生
+// 1秒後にBGM再生
 setTimeout(() => {
     bgm.play();
     bgm.volume = 0.3;
 }, 1000);
+
+
+heartBtn.addEventListener('click', () => {
+    for (let i = 0; i < 3; i++) {
+        const particle = document.createElement('span');
+
+        particle.className = 'heart-particle';
+        particle.textContent = '❤';
+
+        // どこに飛ぶかの数値を計算
+        const tx = (Math.random() - 0.5) * 400;
+        const ty = (Math.random() - 0.5) * 400;
+        const tr = (Math.random() - 0.5) * 500;
+
+        particle.style.setProperty('--tx', `${tx}px`);
+        particle.style.setProperty('--ty', `${ty}px`);
+        particle.style.setProperty('--tr', `${tr}deg`);
+
+        const rect = charImg.getBoundingClientRect();
+        const startX = rect.left + rect.width / 2 + (Math.random() - 0.5) * 100;
+        const startY = rect.top + rect.height / 2 + (Math.random() - 0.5) * 100;
+        particle.style.left = `${startX}px`;
+        particle.style.top = `${startY}px`;
+        document.body.appendChild(particle);
+
+        setTimeout(() => {
+            particle.remove();
+        }, 5000);
+    }
+});
