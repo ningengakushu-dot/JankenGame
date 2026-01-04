@@ -2,6 +2,8 @@ const gooBtn = document.getElementById('goo')
 const chokiBtn = document.getElementById('choki')
 const parBtn = document.getElementById('par')
 const resetBtn = document.getElementById('reset')
+const bgm = document.getElementById('bgm');
+const bgmCtrl = document.getElementById('bgm-ctrl');
 
 const output = document.getElementById('output')
 const coment = document.getElementById('coment')
@@ -102,15 +104,15 @@ const playGame = (userHand) => {
 
         coment.innerHTML += `<br>勝：${win}　負：${lose}　引き分け：${draw}`
 
-        //　２連続で勝ち or 負けでゲーム終了
-        if (winArr === 2) {
+        //　３連続で勝ち or 3連負けでゲーム終了
+        if (winArr === 3) {
             output.textContent = "えーん、えーん！"
             coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
             janCSS.style.display = "none"
             message.innerHTML = `あなたの勝ちですが…<br>みのりちゃんが泣いてしまいました。`
             messageCSS.style.display = "flex"
             charImg.src = charPose.gameWin;
-        } else if (loseArr === 2) {
+        } else if (loseArr === 3) {
             output.textContent = "わーい！みのりのかち！"
             coment.textContent = `勝：${win}　負：${lose}　引き分け：${draw}`
             janCSS.style.display = "none"
@@ -150,3 +152,20 @@ resetBtn.addEventListener('click', () => {
     reset();
 }
 )
+
+
+bgmCtrl.addEventListener('click', () => {
+    if (bgm.paused) {
+        bgm.play();
+        bgmCtrl.classList.remove('paused');
+    } else {
+        bgm.pause();
+        bgmCtrl.classList.add('paused');
+    }
+});
+
+// 1秒後にBGMを再生
+setTimeout(() => {
+    bgm.play();
+    bgm.volume = 0.3;
+}, 1000);
