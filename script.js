@@ -48,7 +48,7 @@ setInterval(() => {
         ]
         output.textContent = outMessage[Math.floor(Math.random() * outMessage.length)]
     }
-}, 6000);
+}, 12000);
 
 const playGame = (userHand) => {
 

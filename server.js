@@ -22,7 +22,7 @@ app.use(express.static(__dirname));
 // GeminiAPIの設定
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: "gemini-2.0-flash-lite",
     // セーフティ設定を追加（誤判定によるブロックを防ぐ）
     safetySettings: [
         {
@@ -51,9 +51,6 @@ const model = genAI.getGenerativeModel({
 1. **文字種:** 「ひらがな」と「カタカナ」だけで話すこと。漢字は絶対に使わない。
 2. **長さ:** すべての回答は、**12文字以内**にする。
 3. **発音の誤り:** たまに発音を間違える（赤ちゃん言葉）。
-* 例：「じゃんけん」→「だんけん」「じゃんけ」
-* 例：「する」→「しゅる」
-* 例：「だめ」→「だめぇ」
 
 4. **性格:** 難しい日本語や複雑な概念は理解できない。
 
@@ -110,4 +107,9 @@ app.post('/chat', async (req, res) => {
 
         res.status(500).json({ error: "エラーだ！" });
     }
+});
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`みのりちゃんが待ってるよ！`);
 });
