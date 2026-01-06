@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap');
 
+* {
+    user-select: none;
+}
+
 :root {
     --bg-color: #fff0f6;
     --main-color: #ff3385;
@@ -13,7 +17,7 @@
 
 body {
     margin: 0;
-    padding: 20px;
+    padding: 5px 10px;
     font-family: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
     background-color: var(--bg-color);
     background-image:
@@ -23,16 +27,28 @@ body {
     background-position: 0 0, 20px 20px;
     color: var(--text-color);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
     box-sizing: border-box;
 }
 
+.game-title {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    font-weight: 700;
+    margin: 5px 0;
+    color: var(--main-color);
+    text-shadow: 2px 2px 0 var(--white), 4px 4px 0 rgba(255, 51, 133, 0.1);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    text-align: center;
+}
+
 #main {
     width: 100%;
     max-width: 500px;
-    padding: 2.5rem 2rem;
+    padding: 1.5rem 1.2rem 1.2rem;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(5px);
@@ -43,35 +59,66 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 650px;
+    min-height: unset;
 }
 
+#footer-area {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 1rem;
+    border-top: 2px dashed rgba(255, 51, 133, 0.2);
+}
+
+#bgm-ctrl,
 #heart-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 2rem;
-    color: var(--secondary-color);
-    opacity: 0.3;
+    font-size: 1.5rem;
     cursor: pointer;
-    user-select: none;
-    /* ハートが選択されない */
-    transition: all 0.3s ease;
+    transition: transform 0.2s;
+    color: var(--secondary-color);
 }
 
+#bgm-ctrl:hover,
 #heart-btn:hover {
-    opacity: 1;
     transform: scale(1.2);
 }
 
-h1 {
-    font-size: clamp(1.5rem, 6vw, 2.2rem);
+#chat-container {
+    flex: 1;
+    display: flex;
+    gap: 5px;
+    background: var(--white);
+    padding: 5px;
+    border-radius: 20px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#chatWindow {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 5px 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    outline: none;
+}
+
+#sendBtn {
+    background: var(--main-color);
+    color: var(--white);
+    border: none;
+    padding: 5px 15px;
+    border-radius: 15px;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: var(--main-color);
-    text-shadow: 2px 2px 0 var(--white), 4px 4px 0 rgba(255, 51, 133, 0.1);
-    letter-spacing: 0.05em;
-    flex-shrink: 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#sendBtn:hover {
+    background: var(--secondary-color);
 }
 
 #output {
@@ -296,9 +343,6 @@ h1 {
 
 /* BGMアイコン */
 .bgm-button {
-    position: fixed;
-    top: 15px;
-    left: 15px;
     font-size: 20px;
     cursor: pointer;
     background: none;
@@ -307,11 +351,8 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-    opacity: 0.5;
-    transition: opacity 0.3s, transform 0.3s;
+    transition: transform 0.3s;
     user-select: none;
-    color: #888;
 }
 
 .bgm-button.paused::after {

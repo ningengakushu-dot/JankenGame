@@ -15,7 +15,8 @@ const message = document.getElementById('message')
 const comentCSS = document.querySelector('#coment')
 const janCSS = document.querySelector('#jan')
 const messageCSS = document.querySelector('#message')
-
+const chatWindow = document.getElementById('chatWindow');
+const sendBtn = document.getElementById('sendBtn');
 
 let playing = false; // 連打防止用（true = じゃんけん中）
 let win = 0
@@ -42,8 +43,8 @@ setInterval(() => {
     if (playing === false && win === 0 && lose === 0 && draw === 0 && janCSS.style.display !== "none") {
         const outMessage = [
             'パパ、あそぼ～！',
-            'はやくあそんでよ～！',
-            'なにしてるのー？'
+            'はやく～！',
+            'なにをしてるの？'
         ]
         output.textContent = outMessage[Math.floor(Math.random() * outMessage.length)]
     }
@@ -212,5 +213,42 @@ heartBtn.addEventListener('click', () => {
         setTimeout(() => {
             particle.remove();
         }, 5000);
+    }
+});
+
+async function sendChat() {
+    const text = chatWindow.value
+    if (!text || text.trim() === "") {
+        return;
+    }
+    chatWindow.value = "";
+    const originalText = output.textContent; // 元のテキスト保持（エラー復帰用）
+    output.textContent = "考え中...";
+
+    try {
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text })
+        });
+
+        // HTTPステータスコードが成功(200-299)か確認
+        if (!response.ok) {
+            throw new Error(`Server Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        output.textContent = data.reply;
+
+    } catch (error) {
+        console.error("通信エラー:", error);
+        output.textContent = "エラーだ！！";
+    }
+}
+
+sendBtn.addEventListener('click', sendChat);
+chatWindow.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && !event.isComposing) {
+        sendChat();
     }
 });
